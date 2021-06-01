@@ -10,10 +10,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200, unique=True,
+    name = models.CharField(max_length=200, unique=False,
                             help_text="Nazwa produktu")
-    price = models.IntegerField(
-        default=100, null=False, help_text="Cena")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, help_text="Kategoria")
 
     def __str__(self):
@@ -22,8 +20,8 @@ class Product(models.Model):
 
 class Zakup(models.Model):
     data = models.DateTimeField(default=timezone.now)
-
-
-class ZakupProduktu(models.Model):
-    zakup = models.ForeignKey(Zakup, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, help_text="Produkt")
+    price = models.FloatField(
+        default=100, null=True, help_text="Cena")
+    quantity = models.FloatField(
+        default=1.0, null=True, help_text="ilość")
